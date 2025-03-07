@@ -3,7 +3,7 @@ from instawow.resolvers import BaseResolver, PkgCandidate
 from instawow.results import PkgNonexistent, PkgSourceInvalid
 
 from instawow_zygor.mediafire import MediaFireClient
-from instawow_zygor.archives import open_rar_archive
+from instawow_zygor.archive import open_rar_archive
 from instawow_zygor.config import Config
 from instawow_zygor.zygor import select_zygor_file, get_zygor_version_from_filename
 
