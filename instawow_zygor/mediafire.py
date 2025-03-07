@@ -17,7 +17,7 @@ class MediaFireFile:
         response = requests.get(self.link, headers=self._headers)
         response.raise_for_status()
         body = response.text
-        if match := re.search(r'href="((http|https)://download[^"]+)', body):
+        if match := re.search(r'(?<=href=\")(?:http|https)://download[^\"]+', body):
             return match.group()
         raise RuntimeError("Could not find a download URL in the Mediafire body.")
 
