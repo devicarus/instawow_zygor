@@ -11,6 +11,7 @@ from instawow.pkg_archives import (
     make_archive_member_filter_fn,
 )
 
+
 class ArchiveExtractor:
     _path: Path
 
@@ -26,6 +27,7 @@ class ArchiveExtractor:
     @staticmethod
     def good() -> bool:
         raise NotImplementedError()
+
 
 class TheUnarchiver(ArchiveExtractor):
     def extract(self, items: list[str], output: Path):
@@ -52,12 +54,14 @@ class TheUnarchiver(ArchiveExtractor):
         return (shutil.which("unar") is not None
                 and shutil.which("lsar") is not None)
 
+
 def get_archive_extractor(path: Path) -> ArchiveExtractor:
     extractors: list[Type[ArchiveExtractor]] = [TheUnarchiver]
     for extractor_cls in extractors:
         if extractor_cls.good():
             return extractor_cls(path)
     raise RuntimeError("No supported unarchiver found.")
+
 
 @contextmanager
 def open_rar_archive(path: Path):
