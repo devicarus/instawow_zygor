@@ -3,6 +3,7 @@ import json
 import subprocess
 from contextlib import contextmanager
 from pathlib import Path
+from os.path import realpath
 from typing import Type
 
 from instawow.pkg_archives import (
@@ -87,6 +88,8 @@ def get_archive_extractor(path: Path) -> ArchiveExtractor:
 
 @contextmanager
 def open_rar_archive(path: Path):
+    # Use realpath, because: https://github.com/layday/instawow/issues/155
+    path = Path(realpath(path))
     extractor = get_archive_extractor(path)
     top_level_folders = {h for _, h in find_archive_addon_tocs(extractor.list())}
     should_extract = make_archive_member_filter_fn(top_level_folders)
