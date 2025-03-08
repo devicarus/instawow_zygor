@@ -55,8 +55,30 @@ class TheUnarchiver(ArchiveExtractor):
                 and shutil.which("lsar") is not None)
 
 
+class WinRAR(ArchiveExtractor):
+    def extract(self, items: list[str], output: Path):
+        subprocess.check_call([
+            "unrar",
+            "x",
+            "-inul",
+            "-y",
+            (str(self._path) + "."),
+            *items,
+            str(output)
+        ])
+
+    def list(self) -> list[str]:
+        return subprocess.check_output(
+            ["unrar", "lb", (str(self._path) + ".")]
+        ).decode().splitlines()
+
+    @staticmethod
+    def good() -> bool:
+        return shutil.which("unrar") is not None
+
+
 def get_archive_extractor(path: Path) -> ArchiveExtractor:
-    extractors: list[Type[ArchiveExtractor]] = [TheUnarchiver]
+    extractors: list[Type[ArchiveExtractor]] = [TheUnarchiver, WinRAR]
     for extractor_cls in extractors:
         if extractor_cls.good():
             return extractor_cls(path)
