@@ -1,6 +1,7 @@
 from instawow.definitions import Defn, ChangelogFormat, SourceMetadata
 from instawow.resolvers import BaseResolver, PkgCandidate
 from instawow.results import PkgNonexistent, PkgSourceInvalid
+from instawow.config_ctx import config
 
 from instawow_zygor.mediafire import MediaFireClient
 from instawow_zygor.archive import open_rar_archive
@@ -19,16 +20,16 @@ class ZygorResolver(BaseResolver):
     requires_access_token = None
     archive_opener = staticmethod(open_rar_archive)
 
-    async def _resolve_one(self, defn: Defn, metadata: None) -> PkgCandidate:
+    async def resolve_one(self, defn: Defn, metadata: None) -> PkgCandidate:
         if defn.alias != 'zygor':
             raise PkgNonexistent
 
-        folder_key = Config(self._config.global_config.plugins_config_dir/"zygor.json").get("folder_key")
+        folder_key = Config(config().global_config.plugins_config_dir/"zygor.json").get("folder_key")
         if not folder_key:
             raise PkgSourceInvalid
 
         files = MediaFireClient().folder_get_files(folder_key)
-        file = select_zygor_file(files, self._config.game_flavour)
+        file = select_zygor_file(files, config().game_flavour)
 
         return PkgCandidate(
             id='1',
