@@ -5,7 +5,7 @@ from instawow.config_ctx import config
 
 from instawow_zygor.mediafire import MediaFireClient
 from instawow_zygor.archive import open_rar_archive
-from instawow_zygor.config import Config
+from instawow_zygor.config import Config, CONFIG_PATH
 from instawow_zygor.zygor import select_zygor_file, get_zygor_version_from_filename
 
 
@@ -24,7 +24,7 @@ class ZygorResolver(BaseResolver):
         if defn.alias != 'zygor':
             raise PkgNonexistent
 
-        folder_key = Config(config().global_config.plugins_config_dir/"zygor.json").get("folder_key")
+        folder_key = Config(CONFIG_PATH).get("folder_key")
         if not folder_key:
             raise PkgSourceInvalid
 

@@ -1,6 +1,9 @@
 import json
 from pathlib import Path
 
+from instawow.config import make_plugin_dirs
+
+CONFIG_PATH = make_plugin_dirs("zygor").config/"config.json"
 
 class Config:
     _path: Path

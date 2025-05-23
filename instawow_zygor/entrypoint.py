@@ -1,9 +1,8 @@
 import click
 
 import instawow
-from instawow.config_ctx import config
 
-from instawow_zygor.config import Config
+from instawow_zygor.config import Config, CONFIG_PATH
 from instawow_zygor.resolver import ZygorResolver
 
 
@@ -14,7 +13,7 @@ def zygor():
 @zygor.command()
 @click.argument("folder_key", type=str)
 def set_folder_key(folder_key: str):
-    Config(config().global_config.plugins_config_dir/"zygor.json").set("folder_key", folder_key)
+    Config(CONFIG_PATH).set("folder_key", folder_key)
 
 @instawow.plugins.hookimpl
 def instawow_add_commands():
