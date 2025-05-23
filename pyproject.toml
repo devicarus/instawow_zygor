@@ -4,7 +4,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "instawow_zygor"
-version = "0.2.1"
+version = "0.2.2"
 description = "Zygor Guides from Mediafire for instawow"
 requires-python = ">=3.11, <4.0.0"
 entry-points."instawow.plugins" = { instawow_zygor = "instawow_zygor.entrypoint" }
